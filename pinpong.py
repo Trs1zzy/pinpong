@@ -4,6 +4,8 @@ from pygame import *
 back = (200, 255, 255) #цвет фона (background)
 win_width = 600
 win_height = 500
+speed_x = 3
+speed_y = 3
 window = display.set_mode((win_width, win_height))
 window.fill(back)
 #флаги, отвечающие за состояние игры
@@ -58,7 +60,7 @@ class Player(GameSprite):
 raketka1 = Player('nonavw.png', 580, 200, 25, 100, 5) 
 
 
-ball = GameSprite('pngwing.com.png', 290, 200, 100, 100, 5)
+ball = GameSprite('pngwing.com.png', 290, 200, 60, 60, 5)
 
 
 raketka2 = Player('nonavw.png', 0, 200, 25, 100, 5)
@@ -87,6 +89,12 @@ while game:
         raketka2.reset()
         raketka1.reset()
         ball.reset()
+        ball.rect.x += speed_x 
+        ball.rect.y += speed_y
+        if ball.rect.y > win_height-50 or ball.rect.y < 0:
+            speed_y *= -1
+        if sprite.collide_rect(raketka1, ball) or sprite.collide_rect(raketka2, ball):
+            speed_x *=  -1
 
     display.update()
     clock.tick(FPS)
